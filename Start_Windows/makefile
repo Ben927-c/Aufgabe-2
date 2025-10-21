@@ -31,7 +31,7 @@ imageInput.o: imageInput.c
 	$(CC) -c $(CFLAGS) imageInput.c
 
 mnistVisualization.o: mnistVisualization.c
-	$(CC) -c $(CFLAGS) -I$(raylibfolder) imageInput.c
+	$(CC) -c $(CFLAGS) -I$(raylibfolder) mnistVisualization.c
 
 # --------------------------
 # Unit Tests
