@@ -1,9 +1,9 @@
 CC = gcc
-CFLAGS = -g -Wall -I$(raylibfolder)
+CFLAGS = -g -Wall
 LDFLAGS = -lopengl32 -lgdi32 -lwinmm
 BINARIES = ./windows
 
-raylib_folder = ./raylib
+raylibfolder = ./raylib
 unityfolder = ./unity
 
 # --------------------------
@@ -16,7 +16,7 @@ mnist_initial: $(BINARIES)/libmnist_complete.a
 # Selbst implementiertes Programm bauen
 # --------------------------
 mnist: main.o matrix.o neuralNetwork.o imageInput.o mnistVisualization.o $(BINARIES)/libraylib.a
-	$(CC) $(CFLAGS) -I$(raylibfolder) -o mnist main.o matrix.o neuralNetwork.o imageInput.o $(BINARIES)/libraylib.a ${LDFLAGS}
+	$(CC) $(CFLAGS) -I$(raylibfolder) -o mnist main.o matrix.o neuralNetwork.o imageInput.o mnistVisualization.o $(BINARIES)/libraylib.a ${LDFLAGS}
 
 main.o: main.c
 	$(CC) -c $(CFLAGS) main.c
@@ -29,6 +29,9 @@ neuralNetwork.o: neuralNetwork.c
 
 imageInput.o: imageInput.c
 	$(CC) -c $(CFLAGS) imageInput.c
+
+mnistVisualization.o: mnistVisualization.c
+	$(CC) -c $(CFLAGS) -I$(raylibfolder) mnistVisualization.c
 
 # --------------------------
 # Unit Tests
@@ -46,5 +49,5 @@ imageInputTests: imageInput.o imageInputTests.c
 # Clean
 # --------------------------
 clean:
-	del /f *.o mnist runMatrixTests runNeuralNetworkTests runImageInputTests
+	del /f *.o *.exe
 

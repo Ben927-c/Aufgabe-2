@@ -4,7 +4,7 @@ LDFLAGS = -framework OpenGL -framework CoreFoundation -framework CoreGraphics -f
 ARCH := $(shell uname -m)
 BINARIES = ./macos-$(ARCH)
 
-raylib_folder = ./raylib
+raylibfolder = ./raylib
 unityfolder = ./unity
 
 # --------------------------
@@ -17,7 +17,7 @@ mnist_initial: $(BINARIES)/libmnist_complete.a
 # Selbst implementiertes Programm bauen
 # --------------------------
 mnist: main.o matrix.o neuralNetwork.o imageInput.o mnistVisualization.o $(BINARIES)/libraylib.a
-	$(CC) $(CFLAGS) -I$(raylibfolder) -o mnist main.o matrix.o neuralNetwork.o imageInput.o $(BINARIES)/libraylib.a ${LDFLAGS}
+	$(CC) $(CFLAGS) -I$(raylibfolder) -o mnist main.o matrix.o neuralNetwork.o imageInput.o mnistVisualization.o $(BINARIES)/libraylib.a ${LDFLAGS}
 
 main.o: main.c
 	$(CC) -c $(CFLAGS) main.c
@@ -30,6 +30,9 @@ neuralNetwork.o: neuralNetwork.c
 
 imageInput.o: imageInput.c
 	$(CC) -c $(CFLAGS) imageInput.c
+
+mnistVisualization.o: mnistVisualization.c
+	$(CC) -c $(CFLAGS) -I$(raylibfolder) mnistVisualization.c
 
 # --------------------------
 # Unit Tests
