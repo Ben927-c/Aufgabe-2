@@ -54,7 +54,7 @@ void test_readImagesReturnsCorrectImageWidth(void)
     GrayScaleImageSeries *series = NULL;
     const unsigned short expectedWidth = 10;
     const char *path = "testFile.info2";
-    prepareImageFile(path, 8, expectedWidth, 2, 1);
+    prepareImageFile(path, expectedWidth, 8, 2, 1);
     series = readImages(path);
     TEST_ASSERT_NOT_NULL(series);
     TEST_ASSERT_NOT_NULL(series->images);
@@ -70,7 +70,7 @@ void test_readImagesReturnsCorrectImageHeight(void)
     GrayScaleImageSeries *series = NULL;
     const unsigned short expectedHeight = 10;
     const char *path = "testFile.info2";
-    prepareImageFile(path, expectedHeight, 8, 2, 1);
+    prepareImageFile(path, 8, expectedHeight, 2, 1);
     series = readImages(path);
     TEST_ASSERT_NOT_NULL(series);
     TEST_ASSERT_NOT_NULL(series->images);
