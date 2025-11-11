@@ -71,6 +71,32 @@ void test_addFailsOnDifferentInputDimensions(void)
     TEST_ASSERT_EQUAL_UINT32(0, result.cols);
 }
 
+void test_addSupportsBroadcasting(void)
+{
+    MatrixType buffer1[] = {1, 2, 3, 4, 5, 6};
+    MatrixType buffer2[] = {7, 8};
+    Matrix matrix1 = {.rows=2, .cols=3, .buffer=buffer1};
+    Matrix matrix2 = {.rows=2, .cols=1, .buffer=buffer2};
+
+    Matrix result1 = add(matrix1, matrix2);
+    Matrix result2 = add(matrix2, matrix1);
+
+    float expectedResults[] = {8, 9, 10, 12, 13, 14};
+
+    TEST_ASSERT_EQUAL_UINT32(matrix1.rows, result1.rows);
+    TEST_ASSERT_EQUAL_UINT32(matrix1.cols, result1.cols);
+    TEST_ASSERT_EQUAL_UINT32(matrix1.rows, result2.rows);
+    TEST_ASSERT_EQUAL_UINT32(matrix1.cols, result2.cols);
+
+    TEST_ASSERT_EQUAL_INT(sizeof(expectedResults)/sizeof(expectedResults[0]), result1.rows * result1.cols);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(expectedResults, result1.buffer, result1.cols * result1.rows);
+    TEST_ASSERT_EQUAL_INT(sizeof(expectedResults)/sizeof(expectedResults[0]), result2.rows * result2.cols);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(expectedResults, result2.buffer, result2.cols * result2.rows);
+
+    free(result1.buffer);
+    free(result2.buffer);
+}
+
 void test_multiplyReturnsCorrectResults(void)
 {
     MatrixType buffer1[] = {1, 2, 3, 4, 5, 6};
@@ -159,6 +185,7 @@ int main()
     RUN_TEST(test_clearMatrixSetsMembersToNull);
     RUN_TEST(test_addReturnsCorrectResult);
     RUN_TEST(test_addFailsOnDifferentInputDimensions);
+    RUN_TEST(test_addSupportsBroadcasting);
     RUN_TEST(test_multiplyReturnsCorrectResults);
     RUN_TEST(test_multiplyFailsOnWrongInputDimensions);
     RUN_TEST(test_getMatrixAtReturnsCorrectResult);
