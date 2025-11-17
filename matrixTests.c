@@ -164,7 +164,7 @@ void test_setMatrixAtFailsOnIndicesOutOfRange(void)
     Matrix matrixToTest = {.rows=2, .cols=3, .buffer=buffer};
 
     setMatrixAt(-1, matrixToTest, 2, 3);
-    TEST_ASSERT_EQUAL_FLOAT_ARRAY(expectedResults, matrixToTest.buffer, matrixToTest.cols * matrixToTest.rows);
+    TEST_ASSERT_EQUAL_FLOAT_ARRAY(expectedResults, matrixToTest.buffer, sizeof(buffer)/sizeof(MatrixType));
 }
 
 void setUp(void) {
