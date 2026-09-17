@@ -1,3 +1,0 @@
-LDFLAGS = -framework OpenGL -framework CoreFoundation -framework CoreGraphics -framework IOKit -framework Cocoa -framework CoreVideo
-ARCH := $(shell uname -m)
-BINARIES = ./macos-$(ARCH)
