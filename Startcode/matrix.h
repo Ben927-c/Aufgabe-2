@@ -6,6 +6,11 @@
 typedef float MatrixType;
 
 // TODO Matrixtyp definieren
+typedef struct{
+    unsigned int rows;
+    unsigned int cols;
+    MatrixType *buffer;
+} Matrix;
 
 
 Matrix createMatrix(unsigned int rows, unsigned int cols);

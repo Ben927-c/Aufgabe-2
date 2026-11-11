@@ -6,7 +6,22 @@
 
 Matrix createMatrix(unsigned int rows, unsigned int cols)
 {
+    Matrix empty = {0, 0, NULL};
     
+    if(rows == 0 || cols == 0){
+        return empty;
+    }
+    MatrixType *buffer = calloc((rows * cols), sizeof(MatrixType));
+    if(buffer == NULL){
+        return empty;
+    }
+    Matrix result;
+    
+    result.rows = rows;
+    result.cols = cols;
+    result.buffer = buffer; 
+
+    return result;
 }
 
 void clearMatrix(Matrix *matrix)
