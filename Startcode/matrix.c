@@ -16,7 +16,7 @@ Matrix createMatrix(unsigned int rows, unsigned int cols)
         return empty;
     }
     Matrix result;
-    
+
     result.rows = rows;
     result.cols = cols;
     result.buffer = buffer; 
@@ -26,7 +26,14 @@ Matrix createMatrix(unsigned int rows, unsigned int cols)
 
 void clearMatrix(Matrix *matrix)
 {
-    
+    if(matrix == NULL){
+        return;
+    }
+    free(matrix->buffer);
+
+    matrix->rows = 0;
+    matrix->cols = 0;
+    matrix->buffer = NULL;
 }
 
 void setMatrixAt(MatrixType value, Matrix matrix, unsigned int rowIdx, unsigned int colIdx)
@@ -36,7 +43,10 @@ void setMatrixAt(MatrixType value, Matrix matrix, unsigned int rowIdx, unsigned 
 
 MatrixType getMatrixAt(const Matrix matrix, unsigned int rowIdx, unsigned int colIdx)
 {
-    
+    if(rowIdx < 0 || rowIdx >= matrix.rows || colIdx < 0 || colIdx >= matrix.cols){
+        return UNDEFINED_MATRIX_VALUE;
+    }
+    return matrix.buffer[rowIdx * matrix.cols + colIdx];
 }
 
 Matrix add(const Matrix matrix1, const Matrix matrix2)
