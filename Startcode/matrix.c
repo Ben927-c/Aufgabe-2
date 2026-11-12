@@ -38,12 +38,15 @@ void clearMatrix(Matrix *matrix)
 
 void setMatrixAt(MatrixType value, Matrix matrix, unsigned int rowIdx, unsigned int colIdx)
 {
-    
+    if(rowIdx >= matrix.rows || colIdx >= matrix.cols){
+        return;
+    }
+    matrix.buffer[rowIdx * matrix.cols + colIdx] = value;
 }
 
 MatrixType getMatrixAt(const Matrix matrix, unsigned int rowIdx, unsigned int colIdx)
 {
-    if(rowIdx < 0 || rowIdx >= matrix.rows || colIdx < 0 || colIdx >= matrix.cols){
+    if(rowIdx >= matrix.rows || colIdx >= matrix.cols){
         return UNDEFINED_MATRIX_VALUE;
     }
     return matrix.buffer[rowIdx * matrix.cols + colIdx];
@@ -51,7 +54,29 @@ MatrixType getMatrixAt(const Matrix matrix, unsigned int rowIdx, unsigned int co
 
 Matrix add(const Matrix matrix1, const Matrix matrix2)
 {
+    Matrix empty = {0, 0, NULL};
+    MatrixType temp1;
     
+    if(matrix1.rows != matrix2.rows || matrix1.cols != matrix2.cols){
+        return empty;
+    }
+    Matrix result = createMatrix(matrix1.rows, matrix1.cols);
+    if(result.buffer == NULL){
+        return empty;
+    }
+
+    for(unsigned int i = 0; i < matrix1.rows; i++)
+    {
+        for(unsigned int j = 0; j < matrix1.cols; j++)
+        {
+            temp1 = getMatrixAt(matrix1, i, j) + getMatrixAt(matrix2, i, j);
+            
+            setMatrixAt(temp1, result, i, j);
+        }
+    }
+
+    return result;
+
 }
 
 Matrix multiply(const Matrix matrix1, const Matrix matrix2)
