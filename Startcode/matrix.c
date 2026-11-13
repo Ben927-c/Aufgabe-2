@@ -56,20 +56,30 @@ Matrix add(const Matrix matrix1, const Matrix matrix2)
 {
     Matrix empty = {0, 0, NULL};
     MatrixType temp1;
+    unsigned int cause1 = (matrix1.rows != matrix2.rows);
+    unsigned int cause2= ((matrix1.cols != matrix2.cols) && ((matrix1.cols != 1) && (matrix2.cols != 1)));
     
-    if(matrix1.rows != matrix2.rows || matrix1.cols != matrix2.cols){
+    if(cause1 || cause2){ //Prüfe ob Matrixaddition möglich ist
         return empty;
     }
-    Matrix result = createMatrix(matrix1.rows, matrix1.cols);
+    
+    unsigned int var; //Vergleicht, welche Matrix mehr Spalten hat damit eine evtl. breitere Matrix an der korrekten Stelle steht
+    var = (matrix1.cols > matrix2.cols) ? matrix1.cols : matrix2.cols;
+
+    Matrix result = createMatrix(matrix1.rows, var); //Erstellt Zielmatrix
     if(result.buffer == NULL){
         return empty;
     }
-
-    for(unsigned int i = 0; i < matrix1.rows; i++)
+    
+    for(unsigned int i = 0; i < matrix1.rows; i++) //Einzelnes einsetzen der Summe in die Zielmatrix
     {
-        for(unsigned int j = 0; j < matrix1.cols; j++)
+        for(unsigned int j = 0; j < var; j++)
         {
-            temp1 = getMatrixAt(matrix1, i, j) + getMatrixAt(matrix2, i, j);
+            unsigned int col1, col2;
+            col1 = (matrix1.cols == 1) ? 0 : j;
+            col2 = (matrix2.cols == 1) ? 0 : j;
+            
+            temp1 = getMatrixAt(matrix1, i, col1) + getMatrixAt(matrix2, i, col2);
             
             setMatrixAt(temp1, result, i, j);
         }
@@ -81,5 +91,10 @@ Matrix add(const Matrix matrix1, const Matrix matrix2)
 
 Matrix multiply(const Matrix matrix1, const Matrix matrix2)
 {
-    
+    Matrix empty = {0, 0, NULL};
+
+    if(matrix1.cols != matrix2.rows){ //Prüfe ob Matrixmultiplikation möglich ist
+        return empty;
+    }
+
 }
