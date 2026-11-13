@@ -97,4 +97,24 @@ Matrix multiply(const Matrix matrix1, const Matrix matrix2)
         return empty;
     }
 
+    Matrix result = createMatrix(matrix1.rows, matrix2.cols); //Erstellt Zielmatrix
+    if(result.buffer == NULL){
+        return empty;
+    }
+
+    for(unsigned int i = 0; i < matrix1.rows; i++)
+    {
+        for(unsigned int j = 0; j < matrix2.cols; j++)
+        {
+            MatrixType sum = 0; //Summe wird regelmäßig zurückgesetzt
+            
+            for(unsigned int k = 0; k < matrix1.cols; k++)
+            {
+                sum = sum + (getMatrixAt(matrix1, i, k) * getMatrixAt(matrix2, k, j)); //Berechne erst Produkt, dann Summe
+            }
+            setMatrixAt(sum, result, i, j);
+        }
+    }
+
+    return result;
 }
