@@ -56,8 +56,8 @@ Matrix add(const Matrix matrix1, const Matrix matrix2)
 {
     Matrix empty = {0, 0, NULL};
     MatrixType temp1;
-    unsigned int cause1 = (matrix1.rows != matrix2.rows);
-    unsigned int cause2= ((matrix1.cols != matrix2.cols) && ((matrix1.cols != 1) && (matrix2.cols != 1)));
+    unsigned int cause1 = (matrix1.rows != matrix2.rows); //Prüft ob Matrix Reihen und Spalten gleich sind
+    unsigned int cause2= ((matrix1.cols != matrix2.cols) && ((matrix1.cols != 1) && (matrix2.cols != 1))); //Bezieht Fall mit ein, in dem nur eine Spalte existiert
     
     if(cause1 || cause2){ //Prüfe ob Matrixaddition möglich ist
         return empty;
@@ -75,13 +75,13 @@ Matrix add(const Matrix matrix1, const Matrix matrix2)
     {
         for(unsigned int j = 0; j < var; j++)
         {
-            unsigned int col1, col2;
+            unsigned int col1, col2; //Falls Saplte gleich 1, wird j durch Null ersetzt
             col1 = (matrix1.cols == 1) ? 0 : j;
             col2 = (matrix2.cols == 1) ? 0 : j;
             
-            temp1 = getMatrixAt(matrix1, i, col1) + getMatrixAt(matrix2, i, col2);
+            temp1 = getMatrixAt(matrix1, i, col1) + getMatrixAt(matrix2, i, col2); //Summe wird als Zwischenwert gespeichert
             
-            setMatrixAt(temp1, result, i, j);
+            setMatrixAt(temp1, result, i, j); //Einfügen der Summe in Zielmatrix
         }
     }
 
@@ -98,7 +98,7 @@ Matrix multiply(const Matrix matrix1, const Matrix matrix2)
     }
 
     Matrix result = createMatrix(matrix1.rows, matrix2.cols); //Erstellt Zielmatrix
-    if(result.buffer == NULL){
+    if(result.buffer == NULL){ //Prüfe ob Zielmatrix erstellt wurde
         return empty;
     }
 
@@ -112,7 +112,7 @@ Matrix multiply(const Matrix matrix1, const Matrix matrix2)
             {
                 sum = sum + (getMatrixAt(matrix1, i, k) * getMatrixAt(matrix2, k, j)); //Berechne erst Produkt, dann Summe
             }
-            setMatrixAt(sum, result, i, j);
+            setMatrixAt(sum, result, i, j); //Einfügen der Ergbenisse in die Zielmatrix
         }
     }
 
