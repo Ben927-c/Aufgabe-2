@@ -8,7 +8,33 @@
 
 static void prepareNeuralNetworkFile(const char *path, const NeuralNetwork nn)
 {
-    // TODO
+    //
+    FILE *file = fopen(path, "wb");
+    const char *fileTag = "__info2_neural_network_file_format__";
+
+    if(file != NULL)
+    {
+        fwrite(fileTag, sizeof(char), strlen(fileTag), file);
+
+        if(nn.numberOfLayers > 0)
+        {
+            int inputDim = nn.layers[0].weights.cols;
+            fwrite(&inputDim, sizeof(int), 1, file);
+        }
+
+        for(unsigned int i = 0; i < nn.numberOfLayers; i++)
+        {
+            int outputDim = nn.layers[i].weights.rows;
+            fwrite(&outputDim, sizeof(int), 1, file);
+
+            fwrite(nn.layers[i].weights.buffer, sizeof(MatrixType), nn.layers[i].weights.rows * nn.layers[i].weights.cols, file);
+
+            fwrite(nn.layers[i].biases.buffer, sizeof(MatrixType), nn.layers[i].biases.rows, file);
+        }
+        
+        fclose(file);
+    }
+
 }
 
 void test_loadModelReturnsCorrectNumberOfLayers(void)
