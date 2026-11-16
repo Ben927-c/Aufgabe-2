@@ -119,6 +119,29 @@ void test_readImagesFailsOnWrongFileTag(void)
     remove(path);
 }
 
+void test_readImagesReturnsNullOnShortHeader(void)
+{
+    const char *path = "testFile.info2";
+
+    FILE *file = fopen(path, "wb");
+
+    TEST_ASSERT_NOT_NULL(file);
+
+    const char *fileTag = "__info2_image_file_format__";
+
+    // Nur die ersten 10 Zeichen des Headers schreiben
+    fwrite(fileTag, sizeof(fileTag[0]), 10, file);
+
+    // Datei schließen
+    fclose(file);
+
+    // Prüfen, ob readImages NULL zurückgibt
+    TEST_ASSERT_NULL(readImages(path));
+
+    // Testdatei löschen
+    remove(path);
+}
+
 void setUp(void) {
     // Falls notwendig, kann hier Vorbereitungsarbeit gemacht werden
 }
@@ -138,6 +161,7 @@ int main()
     RUN_TEST(test_readImagesReturnsCorrectLabels);
     RUN_TEST(test_readImagesReturnsNullOnNotExistingPath);
     RUN_TEST(test_readImagesFailsOnWrongFileTag);
+    RUN_TEST(test_readImagesReturnsNullOnShortHeader);
 
     return UNITY_END();
 }
